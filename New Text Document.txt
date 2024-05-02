@@ -1,0 +1,49 @@
+-- Create the CUSTOMER table
+CREATE TABLE CUSTOMER (
+    CustomerID INT PRIMARY KEY,
+    Name VARCHAR2(50),
+    Email VARCHAR2(100) UNIQUE,
+    Phone VARCHAR2(15),
+    Address VARCHAR2(255)
+);
+
+-- Create the CATEGORY table
+CREATE TABLE CATEGORY (
+    CategoryID INT PRIMARY KEY,
+    Name VARCHAR2(50) UNIQUE
+);
+
+-- Create the PRODUCT table
+CREATE TABLE PRODUCT (
+    ProductID INT PRIMARY KEY,
+    Name VARCHAR2(100),
+    Price DECIMAL(10, 2),
+    CategoryID INT,
+    FOREIGN KEY (CategoryID) REFERENCES CATEGORY(CategoryID)
+);
+
+-- Create the ORDERS table
+CREATE TABLE ORDERS (
+    OrderID INT PRIMARY KEY,
+    CustomerID INT,
+    OrderDate DATE DEFAULT SYSDATE,
+    FOREIGN KEY (CustomerID) REFERENCES CUSTOMER(CustomerID)
+);
+
+-- Create the ORDER_ITEM table
+CREATE TABLE ORDER_ITEM (
+    OrderItemID INT PRIMARY KEY,
+    OrderID INT,
+    ProductID INT,
+    Quantity INT,
+    FOREIGN KEY (OrderID) REFERENCES ORDERS(OrderID),
+    FOREIGN KEY (ProductID) REFERENCES PRODUCT(ProductID)
+);
+
+-- Add a column Category (VARCHAR2(20)) to the PRODUCT table
+ALTER TABLE PRODUCT
+ADD Category VARCHAR2(20);
+
+-- Add a column OrderDate (DATE) to the ORDERS table with SYSDATE as a default value
+ALTER TABLE ORDERS
+ADD OrderDate DATE DEFAULT SYSDATE;
